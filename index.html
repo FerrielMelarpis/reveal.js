@@ -128,14 +128,24 @@
                 </ol>
                 <aside class="notes">
                     <ol>
-                        <li>beforeCreate - Called synchronously immediately after the instance has been initialized, before data observation and event/watcher setup.</li>
-                        <li>created - Called synchronously after the instance is created. At this stage, the instance has finished processing the options which means the following have been set up: data observation, computed properties, methods, watch/event callbacks. However, the mounting phase has not been started, and the $el property will not be available yet.</li>
+                        <li>beforeCreate - Called synchronously immediately after the instance has been initialized,
+                            before data observation and event/watcher setup.
+                        </li>
+                        <li>created - Called synchronously after the instance is created. At this stage, the instance
+                            has finished processing the options which means the following have been set up: data
+                            observation, computed properties, methods, watch/event callbacks. However, the mounting
+                            phase has not been started, and the $el property will not be available yet.
+                        </li>
                         <li>beforeMount - Called right before calling render function for mounting the component</li>
-                        <li>mounted - Called after the instance has been mounted to an element. Does not guarantee that all child components have been mounted</li>
+                        <li>mounted - Called after the instance has been mounted to an element. Does not guarantee that
+                            all child components have been mounted
+                        </li>
                         <li>beforeUpdate - Called when a data is changed and before applying the patch to the DOM</li>
                         <li>updated - Called after applying the patch to the DOM</li>
                         <li>beforeDestroy - Called before the instance is destroyed</li>
-                        <li>destroyed - Called after the instance has been destroyed. No longer have access to the instance.</li>
+                        <li>destroyed - Called after the instance has been destroyed. No longer have access to the
+                            instance.
+                        </li>
                     </ol>
                 </aside>
             </section>
@@ -151,16 +161,85 @@
         <section data-background-iframe="https://jsfiddle.net/ferrielmelarpis/Lg2n24su/" data-background-interactive>
         </section>
         <section id="state-management">
-            State Management
+            <h2>State Management</h2>
+        </section>
+        <section data-background-iframe="https://jsfiddle.net/ferrielmelarpis/fqeLgy0k/" data-background-interactive>
         </section>
         <section id="routing">
-            Routing
+            <h2>Routing</h2>
+        </section>
+        <section data-background-iframe="http://jsfiddle.net/ferrielmelarpis/nj96eLhn/" data-background-interactive>
         </section>
         <section id="testing">
-            Testing
+            <h2>Testing</h2>
+            <pre><code>
+<template>
+  <p>{{ msg }}</p>
+</template>
+
+<script>
+  export default {
+      props: ['msg']
+  };
+</script>
+// testing
+import Vue from 'vue'
+import MyComponent from './MyComponent.vue'
+
+// helper function that mounts and returns the rendered text
+function getRenderedText (Component, propsData) {
+    const Constructor = Vue.extend(Component)
+    const vm = new Constructor({ propsData: propsData }).$mount()
+    return vm.$el.textContent
+}
+
+describe('MyComponent', () => {
+  it('renders correctly with different props', function () {
+      expect(getRenderedText(MyComponent, {
+          msg: 'Hello'
+      })).toBe('Hello')
+
+      expect(getRenderedText(MyComponent, {
+          msg: 'Bye'
+      })).toBe('Bye')
+  })
+})
+            </code></pre>
         </section>
         <section>
-            References
+            Vue Test Utils - https://vue-test-utils.vuejs.org/en
+            <pre><code>
+import { mount } from '@vue/test-utils'
+import MyComponent from './MyComponent.vue'
+
+it('renders correctly with different props', function () {
+    // Now mount the component and you have the wrapper
+    const wrapper = mount(Counter, {
+        propsData: {
+            msg: 'Bye',
+        }
+    })
+
+    // You can access the actual Vue instance via `wrapper.vm`
+    expect(wrapper.vm.text()).toBe('Bye')
+    wrapper.vm.setProps({ msg: 'Haro' })
+    wrapper.vm.update()
+    expect(wrapper.vm.text()).toBe('Haro')
+})
+            </code></pre>
+        </section>
+        <section>
+            <h2>References</h2>
+            <ul>
+                <li><a href="https://vuejs.org/v2/guide/">Vue.js 2 Guide - https://vuejs.org/v2/guide/</a></li>
+                <li><a href="https://vuejs.org/v2/api/">Vue.js 2 API - https://vuejs.org/v2/api/</a></li>
+                <li><a href="https://vuejs.org/v2/style-guide/">Vue.js 2 Style Guide -
+                    https://vuejs.org/v2/style-guide/</a></li>
+                <li><a href="https://vuex.vuejs.org/en/">Vuex - https://vuex.vuejs.org/en/</a></li>
+                <li><a href="https://router.vuejs.org/en/">Vue Router - https://router.vuejs.org/en/</a></li>
+                <li><a href="https://vue-test-utils.vuejs.org/en">Vue Test Utils -
+                    https://vue-test-utils.vuejs.org/en</a></li>
+            </ul>
         </section>
     </div>
 </div>
